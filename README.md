@@ -2,6 +2,18 @@
 
 A structured study repo for learning MMU, virtual memory, ARM A-series memory management, and related translation concepts.
 
+## Index
+
+- [Course Outline](#course-outline)
+- [Repository Structure](#repository-structure)
+- [Suggested Study Flow](#suggested-study-flow)
+- [Module 1: Foundations](course/01-foundations.md)
+- [Module 2: Virtual Memory Basics](course/02-virtual-memory.md)
+- [Module 3: MMU Mappings](course/03-mmu-mappings.md)
+- [Module 4: ARM Translation Structures](course/04-arm-translation-structures.md)
+- [Module 5: ARMv8 / AArch64 Translation](course/05-armv8-aarch64.md)
+- [Module 6: Numerical Translation Example](course/06-numerical-translation-example.md)
+
 ## Course Outline
 
 ### Module 1: Foundations

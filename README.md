@@ -6,6 +6,7 @@ A structured study repo for learning MMU, virtual memory, ARM A-series memory ma
 
 - [Course Overview](#course-overview)
 - [Module Guide](#module-guide)
+- [High-Level Diagrams](#high-level-diagrams)
 - [Repository Structure](#repository-structure)
 - [Suggested Study Flow](#suggested-study-flow)
 
@@ -33,9 +34,103 @@ Dive into AArch64 translation, TTBR0_EL1 and TTBR1_EL1, TCR_EL1, MAIR_EL1, multi
 ### [Module 6: Numerical Translation Example](course/06-numerical-translation-example.md)
 Follow a complete step-by-step AArch64 numerical translation example and see how offsets and final physical addresses are formed.
 
+## High-Level Diagrams
+
+### 1. CPU to Memory Access Path
+
+```text
+Program / Instruction
+        |
+        v
+       CPU
+        |
+        v
+   Virtual Address
+        |
+        v
+       MMU
+     /     \
+TLB hit   TLB miss
+  |          |
+  |      Page Table Walk
+  |          |
+  +----------+
+        |
+        v
+ Physical Address
+        |
+        v
+   RAM / Device Memory
+```
+
+### 2. Virtual Memory Abstraction
+
+```text
+Process View:
++-----------------------------+
+| Code                        |
+| Data                        |
+| Heap                        |
+| ...                         |
+| Stack                       |
++-----------------------------+
+      looks contiguous
+
+Physical Reality:
++--------+   +--------+   +--------+   +--------+
+| FrameA |   | FrameB |   | FrameC |   | FrameD |
++--------+   +--------+   +--------+   +--------+
+   ^             ^            ^            ^
+   |_____________|____________|____________|
+        mapped through page tables
+```
+
+### 3. Page Table Walk Flow
+
+```text
+Virtual Address
+      |
+      +--> L0 index --> Level 0 table entry
+      |
+      +--> L1 index --> Level 1 table entry
+      |
+      +--> L2 index --> Level 2 table entry
+      |
+      +--> L3 index --> Level 3/page entry
+      |
+      +--> page offset
+                    |
+                    v
+      Physical Page Base + Offset
+                    |
+                    v
+             Physical Address
+```
+
+### 4. TLB vs Page Table
+
+```text
++---------------------------+
+| TLB                       |
+| Small, fast cache         |
+| Stores recent mappings    |
++---------------------------+
+            |
+    hit --> use mapping
+    miss --> walk page tables in RAM
+            |
+            v
++---------------------------+
+| Page Tables in Memory     |
+| Full translation database |
+| Maintained by OS          |
++---------------------------+
+```
+
 ## Repository Structure
 
-- `README.md` — overview, module guide, and study path
+- `README.md` — overview, module guide, study path, and diagrams
+- `SUMMARY.md` — quick course navigation
 - `course/01-foundations.md` — fundamentals of memory management and MMU need
 - `course/02-virtual-memory.md` — virtual memory concepts and assumptions
 - `course/03-mmu-mappings.md` — translation mappings, TLB, and page-table walks
